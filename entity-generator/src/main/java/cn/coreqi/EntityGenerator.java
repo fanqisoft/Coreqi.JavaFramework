@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityGenerator {
+
     /**
      * 运行此处使用实体生成工具
      * @param args
