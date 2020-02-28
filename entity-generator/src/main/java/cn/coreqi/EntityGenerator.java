@@ -34,17 +34,17 @@ public class EntityGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:sqlserver://localhost;databaseName=prevent_lightning_device_managerment");
+        dsc.setUrl("jdbc:mysql://localhost:3306/coreqi_java_framework?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dsc.setUsername("sa");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setUsername("root");
         dsc.setPassword("fanqisoft");
-        dsc.setDbType(DbType.SQL_SERVER);
+        dsc.setDbType(DbType.MYSQL);
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("cn.reegle");
+        pc.setParent("cn.coreqi");
         pc.setEntity("entity");
         pc.setXml("entityMapper");
         pc.setMapper("entityMapper");
@@ -62,7 +62,7 @@ public class EntityGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return projectPath + "/prevent_lightning_device_server/src/main/java/cn/reegle/entityMapper"
+                return projectPath + "/coreqi_java_framework_server/src/main/java/cn/coreqi/entityMapper"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
@@ -83,7 +83,7 @@ public class EntityGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         //strategy.setInclude(scanner("表名"));
-        strategy.setExclude("sysdiagrams");
+        //strategy.setExclude("sysdiagrams");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
