@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    #url: jdbc:p6spy:sqlserver://127.0.0.1;databaseName=prevent_lightning_device_managerment
+    url: jdbc:p6spy:mysql://localhost:3306/coreqi_java_framework?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
+    username: root
+    password: fanqisoft
+
+  mvc:
+    #    spring.mvc.throw-exception-if-no-handler-found 告诉 SpringBoot 当出现 404 错误时, 直接抛出异常
+    throw-exception-if-no-handler-found: true
+  resources:
+    #    spring.resources.add-mappings 告诉 SpringBoot 不要为我们工程中的资源文件建立映射.
+    add-mappings: false
+  devtools:
+    livereload:
+      enabled: true
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 10002
+  servlet:
+    #    context-path: /serverapi/
+    session:
+      timeout: 1000m
+
+mybatis-plus:
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
