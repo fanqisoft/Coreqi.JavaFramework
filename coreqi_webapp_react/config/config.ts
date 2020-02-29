@@ -127,10 +127,10 @@ export default {
               ],
             },
             {
-              name: 'list.table-list',
+              name: 'user.Manager',
               icon: 'table',
-              path: '/list',
-              component: './ListTableList',
+              path: '/userManager',
+              component: './userManager',
             },
             {
               component: './404',

@@ -1,20 +1,29 @@
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu, message } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import { SorterResult } from 'antd/es/table/interface';
-
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
-import { TableListItem } from './data.d';
-import { queryRule, updateRule, addRule, removeRule } from './service';
+import {UserInfo, UserInfoModelState} from '@/models/userManager'
+import { Dispatch, AnyAction } from 'redux';
+import { connect } from 'dva';
+import { ConnectState } from '@/models/connect';
+
+interface UserManagerProps {
+  dispatch:Dispatch<AnyAction>;
+  userList?:UserInfoModelState;
+  submitting?:boolean;
+}
+
+
 
 /**
- * 添加节点
+ * 添加用户
  * @param fields
  */
-const handleAdd = async (fields: TableListItem) => {
+const handleAdd = async (fields: UserInfo) => {
   const hide = message.loading('正在添加');
   try {
     await addRule({ ...fields });
@@ -55,12 +64,12 @@ const handleUpdate = async (fields: FormValueType) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: TableListItem[]) => {
+const handleRemove = async (selectedRows: UserInfo[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
     await removeRule({
-      key: selectedRows.map(row => row.key),
+      key: selectedRows.map(row => row.id),
     });
     hide();
     message.success('删除成功，即将刷新');
@@ -72,82 +81,145 @@ const handleRemove = async (selectedRows: TableListItem[]) => {
   }
 };
 
-const TableList: React.FC<{}> = () => {
+const TableList: React.FC<UserManagerProps> = props => {
+  console.log(props);
+  const { userList } = props;
+  console.log(userList?.userList);
   const [sorter, setSorter] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<UserInfo>[] = [
+    // {
+    //   title: '规则名称',
+    //   dataIndex: 'name',
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '规则名称为必填项',
+    //     },
+    //   ],
+    // },
     {
-      title: '规则名称',
-      dataIndex: 'name',
-      rules: [
-        {
-          required: true,
-          message: '规则名称为必填项',
-        },
-      ],
+      title: '用户Id',
+      dataIndex: 'id',
+      valueType: 'index',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
-      valueType: 'textarea',
+      title: '用户名',
+      dataIndex: 'userName',
+      valueType:'text',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      hideInForm: true,
-      renderText: (val: string) => `${val} 万`,
+      title:'用户密码',
+      dataIndex: 'passWord',
+      valueType: 'text',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: { text: '关闭', status: 'Default' },
-        1: { text: '运行中', status: 'Processing' },
-        2: { text: '已上线', status: 'Success' },
-        3: { text: '异常', status: 'Error' },
-      },
+      title:'真实姓名',
+      dataIndex: 'realName',
+      valueType:'text',
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
+      title:'手机号码',
+      dataIndex: 'mobile',
+      valueType: 'text',
+    },
+    {
+      title:'住址',
+      dataIndex: 'address',
+      valueType: 'text',
+    },
+    {
+      title:'电子邮件',
+      dataIndex: 'email',
+      valueType: 'text',
+    },
+    {
+      title:'创建时间',
+      dataIndex: 'createTime',
       valueType: 'dateTime',
-      hideInForm: true,
     },
     {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <a
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setStepFormValues(record);
-            }}
-          >
-            配置
-          </a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </>
-      ),
+      title:'登录时间',
+      dataIndex: 'loginTime',
+      valueType: 'dateTime',
     },
+    {
+      title:'最后一次登录时间',
+      dataIndex: 'lastLoginTime',
+      valueType: 'dateTime',
+    },
+    {
+      title:'登录次数',
+      dataIndex: 'loginCount',
+      valueType: 'text',
+    },
+    {
+      title:'用户状态',
+      dataIndex: 'status',
+      valueType: 'text',
+    },
+    {
+      title:'是否删除',
+      dataIndex: 'isDel',
+      valueType: 'text',
+    },
+    // {
+    //   title: '服务调用次数',
+    //   dataIndex: 'callNo',
+    //   sorter: true,
+    //   hideInForm: true,
+    //   renderText: (val: string) => `${val} 万`,
+    // },
+    // {
+    //   title: '状态',
+    //   dataIndex: 'status',
+    //   hideInForm: true,
+    //   valueEnum: {
+    //     0: { text: '关闭', status: 'Default' },
+    //     1: { text: '运行中', status: 'Processing' },
+    //     2: { text: '已上线', status: 'Success' },
+    //     3: { text: '异常', status: 'Error' },
+    //   },
+    // },
+    // {
+    //   title: '上次调度时间',
+    //   dataIndex: 'updatedAt',
+    //   sorter: true,
+    //   valueType: 'dateTime',
+    //   hideInForm: true,
+    // },
+    // {
+    //   title: '操作',
+    //   dataIndex: 'option',
+    //   valueType: 'option',
+    //   render: (_, record) => (
+    //     <>
+    //       <a
+    //         onClick={() => {
+    //           handleUpdateModalVisible(true);
+    //           setStepFormValues(record);
+    //         }}
+    //       >
+    //         配置
+    //       </a>
+    //       <Divider type="vertical" />
+    //       <a href="">订阅警报</a>
+    //     </>
+    //   ),
+    // },
   ];
 
   return (
     <PageHeaderWrapper>
-      <ProTable<TableListItem>
-        headerTitle="查询表格"
+      <ProTable<UserInfo>
+        headerTitle="用户管理列表"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         onChange={(_, _filter, _sorter) => {
-          const sorterResult = _sorter as SorterResult<TableListItem>;
+          const sorterResult = _sorter as SorterResult<UserInfo>;
           if (sorterResult.field) {
             setSorter(`${sorterResult.field}_${sorterResult.order}`);
           }
@@ -185,17 +257,22 @@ const TableList: React.FC<{}> = () => {
         tableAlertRender={(selectedRowKeys, selectedRows) => (
           <div>
             已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
+            {/*<span>*/}
+            {/*  服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万*/}
+            {/*</span>*/}
           </div>
         )}
-        request={params => queryRule(params)}
+        defaultData={userList?.userList}
+        // request={params => handleGetUser()}
         columns={columns}
+        onLoad={(data) => {
+          console.log(data,'123',userList?.userList);
+
+        }}
         rowSelection={{}}
       />
       <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
-        <ProTable<TableListItem, TableListItem>
+        <ProTable<UserInfo, UserInfo>
           onSubmit={async value => {
             const success = await handleAdd(value);
             if (success) {
@@ -235,4 +312,7 @@ const TableList: React.FC<{}> = () => {
   );
 };
 
-export default TableList;
+export default connect(({ userManager, loading }: ConnectState) => ({
+  userList: userManager,
+  submitting: loading.effects['userManager/getUser'],
+}))(TableList);
