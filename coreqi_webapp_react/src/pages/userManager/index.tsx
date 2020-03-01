@@ -262,8 +262,7 @@ const TableList: React.FC<UserManagerProps> = props => {
             {/*</span>*/}
           </div>
         )}
-        defaultData={userList?.userList}
-        // request={params => handleGetUser()}
+        dataSource={userList?.userList}
         columns={columns}
         onLoad={(data) => {
           console.log(data,'123',userList?.userList);
