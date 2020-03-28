@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parse } from 'url';
-import { TableListItem, TableListParams } from './data.d';
+import { TableListItem, TableListParams } from '../../models/userManager';
 
 // mock tableListDataSource
 const genList = (current: number, pageSize: number) => {

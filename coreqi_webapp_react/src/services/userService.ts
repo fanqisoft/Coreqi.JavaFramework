@@ -1,5 +1,12 @@
 import request from '@/utils/request';
-import { TableListParams, TableListItem } from './data.d';
+import { TableListParams, TableListItem } from '../models/userManager';
+
+export async function getUsers() {
+  return request('/api/user/fetchList',{
+
+  });
+}
+
 
 export async function queryRule(params?: TableListParams) {
   return request('/api/rule', {
