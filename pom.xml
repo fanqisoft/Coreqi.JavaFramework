@@ -8,217 +8,127 @@
     <artifactId>Coreqi.JavaFramework</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>entity-generator</module>
         <module>coreqi_java_framework_server</module>
     </modules>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <mysql.connector.version>8.0.19</mysql.connector.version>
+        <mssql.jdbc.version>7.4.1.jre8</mssql.jdbc.version>
+        <druid.spring.boot.starter.version>1.1.21</druid.spring.boot.starter.version>
+        <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
+        <springfox.swagger.ui.version>2.9.2</springfox.swagger.ui.version>
+        <lombok.version>1.18.12</lombok.version>
+        <mybatis.plus.boot.starter.version>3.3.1</mybatis.plus.boot.starter.version>
+        <mybatis.plus.generator.version>3.3.1</mybatis.plus.generator.version>
+        <freemarker.version>2.3.30</freemarker.version>
+        <p6spy.version>3.8.7</p6spy.version>
+        <poi.version>4.1.2</poi.version>
     </properties>
 
-    <dependencies>
-        <!--spring boot-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.5.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
+            <!-- 数据库驱动-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <scope>runtime</scope>
+                <version>${mysql.connector.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>${mssql.jdbc.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+            <!--数据池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.spring.boot.starter.version}</version>
+            </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+            <!--swagger-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.swagger2.version}</version>
+            </dependency>
 
-        <!--spring boot test-->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.swagger.ui.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+            <!--lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <optional>true</optional>
+                <version>${lombok.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+            <!--mybatis plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.boot.starter.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-            <scope>runtime</scope>
-        </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis.plus.generator.version}</version>
+            </dependency>
 
-        <!-- 数据库驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.microsoft.sqlserver</groupId>-->
-<!--            <artifactId>mssql-jdbc</artifactId>-->
-<!--            <version>7.4.1.jre8</version>-->
-<!--        </dependency>-->
+            <!-- p6spy 插件用于sql打印-->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
 
-        <!--数据池-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.21</version>
-        </dependency>
+            <!--        excel表导出-->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <!--google guava-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.guava</groupId>-->
-        <!--            <artifactId>guava</artifactId>-->
-        <!--            <version>28.2-jre</version>-->
-        <!--        </dependency>-->
-
-        <!--groovy-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.codehaus.groovy</groupId>-->
-        <!--            <artifactId>groovy-all</artifactId>-->
-        <!--            <version>2.5.9</version>-->
-        <!--            <type>pom</type>-->
-        <!--        </dependency>-->
-
-        <!--lombok-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!--mybatis plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.29</version>
-        </dependency>
-
-        <!-- p6spy 插件用于sql打印-->
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-            <version>3.8.7</version>
-        </dependency>
-
-        <!--mybatis 分页-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.pagehelper</groupId>-->
-        <!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
-        <!--            <version>1.2.13</version>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>org.mybatis.spring.boot</groupId>-->
-        <!--                    <artifactId>mybatis-spring-boot-starter</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-
-        <!--gson-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.code.gson</groupId>-->
-        <!--            <artifactId>gson</artifactId>-->
-        <!--            <version>2.8.6</version>-->
-        <!--        </dependency>-->
-
-        <!-- jsoup jquery like html parse  -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.jsoup</groupId>-->
-        <!--            <artifactId>jsoup</artifactId>-->
-        <!--            <version>1.12.1</version>-->
-        <!--        </dependency>-->
-
-        <!--base64 encode decode-->
-        <!--        <dependency>-->
-        <!--            <groupId>commons-io</groupId>-->
-        <!--            <artifactId>commons-io</artifactId>-->
-        <!--            <version>2.6</version>-->
-        <!--        </dependency>-->
-
-        <!--        excel表导出-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.poi</groupId>-->
-        <!--            <artifactId>poi</artifactId>-->
-        <!--            <version>4.1.1</version>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.module</groupId>-->
-        <!--            <artifactId>jackson-module-parameter-names</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
-        <!--            <artifactId>jackson-datatype-jdk8</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
-        <!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
-        <!--        </dependency>-->
-    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -2,7 +2,7 @@ package cn.coreqi.controller;
 
 import cn.coreqi.core.ProjectException;
 import cn.coreqi.core.ResWrapper;
-import cn.coreqi.entity.TUser;
+import cn.coreqi.core.TUser;
 import cn.coreqi.services.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

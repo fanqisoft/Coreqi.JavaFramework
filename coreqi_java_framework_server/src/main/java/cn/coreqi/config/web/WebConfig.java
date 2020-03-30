@@ -1,4 +1,4 @@
-package cn.coreqi.config;
+package cn.coreqi.config.web;
 
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
