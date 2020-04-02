@@ -3,7 +3,6 @@ package cn.coreqi.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
@@ -16,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author fanqi
- * @since 2020-02-28
+ * @since 2020-03-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,82 +26,61 @@ public class TUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户主键
+     * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 用户名
+     * 姓名
      */
-    @TableField("userName")
-    private String userName;
-
-    /**
-     * 用户密码
-     */
-    @TableField("passWord")
-    private String passWord;
-
-    /**
-     * 用户姓名
-     */
-    @TableField("realName")
-    private String realName;
+    @TableField("name")
+    private String name;
 
     /**
      * 手机号码
      */
-    @TableField("mobile")
-    private String mobile;
+    @TableField("phone")
+    private String phone;
 
     /**
-     * 住址
+     * 住宅电话
+     */
+    @TableField("telephone")
+    private String telephone;
+
+    /**
+     * 联系地址
      */
     @TableField("address")
     private String address;
 
-    /**
-     * 电子邮箱
-     */
-    @TableField("email")
-    private String email;
+    @TableField("enabled")
+    private Boolean enabled;
 
     /**
-     * 创建时间
+     * 用户名
      */
-    @TableField("createTime")
-    private LocalDateTime createTime;
+    @TableField("username")
+    private String username;
 
     /**
-     * 登录时间
+     * 密码
      */
-    @TableField("loginTime")
-    private LocalDateTime loginTime;
+    @TableField("password")
+    private String password;
 
     /**
-     * 上次登录时间
+     * 用户界面
      */
-    @TableField("lastLoginTime")
-    private LocalDateTime lastLoginTime;
+    @TableField("userface")
+    private String userface;
 
     /**
-     * 登录次数
+     * 备注
      */
-    @TableField("loginCount")
-    private Integer loginCount;
-
-    /**
-     * 用户状态
-     */
-    @TableField("status")
-    private Integer status;
-
-    /**
-     * 是否删除
-     */
-    @TableField("isDel")
-    private Integer isDel;
+    @TableField("remark")
+    private String remark;
 
 
 }
