@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Configuration
 @MapperScan({
-        "cn.coreqi.entityMapper"
+        "cn.coreqi.entityMapper",
+        "cn.coreqi.web.modelMapper"
+
 })
 public class MybatisPlusConfig {
     /**

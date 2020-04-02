@@ -1,6 +1,6 @@
 package cn.coreqi.entityMapper;
 
-import cn.coreqi.core.TUser;
+import cn.coreqi.entity.TUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author fanqi
- * @since 2020-03-29
+ * @since 2020-03-31
  */
 public interface TUserMapper extends BaseMapper<TUser> {
-    TUser loadUserByUsername(String s);
+
 }

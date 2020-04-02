@@ -2,7 +2,9 @@ package cn.coreqi.config.security;
 
 import cn.coreqi.entity.TMenu;
 import cn.coreqi.entity.TRole;
-import cn.coreqi.services.MenuService;
+import cn.coreqi.web.model.TMenuModel;
+import cn.coreqi.web.modelMapper.TMenuModelMapper;
+import cn.coreqi.web.services.MenuModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -22,7 +24,7 @@ import java.util.List;
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private MenuService menuService;
+    private MenuModelService menuModelService;
 
     //对类似于URL的字符串做匹配的工具类
     AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -38,8 +40,8 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         FilterInvocation fi = (FilterInvocation) o;
         String requestUrl = fi.getRequestUrl();
-        List<TMenu> menus = menuService.getAllMenusWithRole();
-        for (TMenu menu : menus) {
+        List<TMenuModel> menus = menuModelService.getAllMenusWithRole();
+        for (TMenuModel menu : menus) {
             if (antPathMatcher.match(menu.getUrl(), requestUrl)) {  //如果请求的url和菜单的url一致
                 List<TRole> roles = menu.getRoles();    //拿到该菜单所需的权限列表
                 String[] str = new String[roles.size()];

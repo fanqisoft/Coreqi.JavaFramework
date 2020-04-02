@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author fanqi
- * @since 2020-03-29
+ * @since 2020-03-31
  */
 public interface TMenuRoleMapper extends BaseMapper<TMenuRole> {
 

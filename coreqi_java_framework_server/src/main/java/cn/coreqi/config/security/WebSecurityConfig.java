@@ -1,13 +1,12 @@
 package cn.coreqi.config.security;
 
 import cn.coreqi.core.RespBean;
-import cn.coreqi.core.TUser;
-import cn.coreqi.services.UserService;
-import cn.coreqi.services.impl.UserServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import cn.coreqi.core.TUserModel;
+import cn.coreqi.web.services.UserModelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,10 +30,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    private UserModelService userModelService;
 
     @Autowired
     private CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private VerificationCodeFilter verificationCodeFilter;
+
 
     //密码编码器
     @Bean
@@ -58,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //UserDetailsService接口的作用就是去获取用户信息,比如从数据库中获取。这样的话,AuthenticationManager在认证用户身份信息的时候，就会从中获取用户身份和从http中拿的用户身份做对比
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userModelService).passwordEncoder(passwordEncoder());
     }
 
     //用于配置 WebSecurity
@@ -71,7 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //配置Security的认证策略
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(verificationCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(customUsernamePasswordAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(verificationCodeFilter, CustomUsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests()
 //                .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
@@ -84,46 +86,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .formLogin()
-                .usernameParameter("username")
+                .usernameParameter("userName")
                 .passwordParameter("password")
                 .loginProcessingUrl("/doLogin")
-                .loginPage("/login")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException, IOException {
-                        resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = resp.getWriter();
-                        TUser user = (TUser) authentication.getPrincipal();
-                        user.setPassword(null);
-                        RespBean ok = RespBean.ok("登录成功!", user);
-                        String s = new ObjectMapper().writeValueAsString(ok);
-                        out.write(s);
-                        out.flush();
-                        out.close();
-                    }
-                })
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException, ServletException {
-                        resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = resp.getWriter();
-                        RespBean respBean = RespBean.error("登录失败!");
-                        if (exception instanceof LockedException) {
-                            respBean.setMsg("账户被锁定，请联系管理员!");
-                        } else if (exception instanceof CredentialsExpiredException) {
-                            respBean.setMsg("密码过期，请联系管理员!");
-                        } else if (exception instanceof AccountExpiredException) {
-                            respBean.setMsg("账户过期，请联系管理员!");
-                        } else if (exception instanceof DisabledException) {
-                            respBean.setMsg("账户被禁用，请联系管理员!");
-                        } else if (exception instanceof BadCredentialsException) {
-                            respBean.setMsg("用户名或者密码输入错误，请重新输入!");
-                        }
-                        out.write(new ObjectMapper().writeValueAsString(respBean));
-                        out.flush();
-                        out.close();
-                    }
-                })
+                .loginPage("/login/account")
                 .permitAll()
                 .and()
                 .logout()
@@ -156,5 +122,55 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         out.close();
                     }
                 });
+    }
+
+    @Bean
+    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter filter = new CustomUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationManager(authenticationManagerBean());
+        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException, IOException {
+                resp.setContentType("application/json;charset=utf-8");
+                PrintWriter out = resp.getWriter();
+                TUserModel user = (TUserModel) authentication.getPrincipal();
+                user.setPassword(null);
+                RespBean ok = RespBean.ok("登录成功!", user);
+                String s = new ObjectMapper().writeValueAsString(ok);
+                out.write(s);
+                out.flush();
+                out.close();
+            }
+        });
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException, ServletException {
+                resp.setContentType("application/json;charset=utf-8");
+                PrintWriter out = resp.getWriter();
+                RespBean respBean = RespBean.error("登录失败!");
+                if (exception instanceof LockedException) {
+                    respBean.setMsg("账户被锁定，请联系管理员!");
+                } else if (exception instanceof CredentialsExpiredException) {
+                    respBean.setMsg("密码过期，请联系管理员!");
+                } else if (exception instanceof AccountExpiredException) {
+                    respBean.setMsg("账户过期，请联系管理员!");
+                } else if (exception instanceof DisabledException) {
+                    respBean.setMsg("账户被禁用，请联系管理员!");
+                } else if (exception instanceof BadCredentialsException) {
+                    respBean.setMsg("用户名或者密码输入错误，请重新输入!");
+                }
+                out.write(new ObjectMapper().writeValueAsString(respBean));
+                out.flush();
+                out.close();
+            }
+        });
+        return filter;
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        AuthenticationManager manager = super.authenticationManagerBean();
+        return manager;
     }
 }
