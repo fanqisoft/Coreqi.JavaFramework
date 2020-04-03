@@ -1,6 +1,9 @@
 package cn.coreqi.web.controller;
 
+import cn.coreqi.core.RespBean;
+import cn.coreqi.core.TUserModel;
 import cn.coreqi.core.VerificationCode;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +21,11 @@ public class LoginController {
         String text = code.getText();
         session.setAttribute("verify_code", text);
         VerificationCode.output(image,resp.getOutputStream());
+    }
+
+    @GetMapping("/currentUser")
+    public RespBean currentUser(Authentication authentication){
+        TUserModel user = (TUserModel) authentication.getPrincipal();
+        return RespBean.ok("",user);
     }
 }

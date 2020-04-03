@@ -11,7 +11,6 @@ const Model = {
   },
   effects: {
     *login({ payload }, { call, put }) {
-      console.log(payload);
       const response = yield call(AccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
