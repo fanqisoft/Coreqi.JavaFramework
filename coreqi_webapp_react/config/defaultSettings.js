@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: 'Corei Framework',
   pwa: false,
   iconfontUrl: '',
 };

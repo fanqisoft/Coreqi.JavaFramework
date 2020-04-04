@@ -18,4 +18,9 @@ public class MenuModelServiceImpl implements MenuModelService {
     public List<TMenuModel> getAllMenusWithRole() {
         return menuModelMapper.getAllMenusWithRole();
     }
+
+    @Override
+    public List<TMenuModel> getMenusByUserId(Integer userId) {
+        return menuModelMapper.getMenusByUserId(userId);
+    }
 }

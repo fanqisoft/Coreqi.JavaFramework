@@ -1,12 +1,20 @@
-import { queryNotices } from '@/services/user';
+import {queryMenusByUserId, queryNotices} from '@/services/user';
 
 const GlobalModel = {
   namespace: 'global',
   state: {
     collapsed: false,
     notices: [],
+    menuDatas:[],
   },
   effects: {
+    *fetchMenusByUserId({ payload }, {call, put}) {
+      const response = yield call(queryMenusByUserId,payload);
+      yield put({
+        type: 'fetchMenusByUserIdSuccess',
+        payload: response,
+      });
+    },
     *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({
@@ -69,6 +77,12 @@ const GlobalModel = {
     },
   },
   reducers: {
+    fetchMenusByUserIdSuccess(state, action) {
+      return {
+        ...state,
+        menuDatas: action.payload.obj || [],
+      }
+    },
     changeLayoutCollapsed(
       state = {
         notices: [],
