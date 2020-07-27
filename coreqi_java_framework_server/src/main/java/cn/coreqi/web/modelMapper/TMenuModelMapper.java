@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface TMenuModelMapper {
     List<TMenuModel> getAllMenusWithRole();
+    List<TMenuModel> getMenusByUserId(Integer userId);
 }

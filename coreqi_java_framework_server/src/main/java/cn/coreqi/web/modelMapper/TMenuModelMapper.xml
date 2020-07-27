@@ -15,6 +15,21 @@
         <result column="requireAuth" property="requireAuth" jdbcType="BIT" />
     </resultMap>
 
+    <resultMap id="Menus2" type="cn.coreqi.web.model.TMenuModel" extends="BaseResultMap">
+        <collection property="children" ofType="cn.coreqi.web.model.TMenuModel">
+            <id column="id2" property="id" jdbcType="INTEGER" />
+            <result column="url2" property="url" jdbcType="VARCHAR" />
+            <result column="path2" property="path" jdbcType="VARCHAR" />
+            <result column="component2" property="component" jdbcType="VARCHAR" />
+            <result column="name2" property="name" jdbcType="VARCHAR" />
+            <result column="iconCls2" property="iconCls" jdbcType="VARCHAR" />
+            <result column="parentId2" property="parentId" jdbcType="INTEGER" />
+            <result column="enabled2" property="enabled" jdbcType="BIT" />
+            <result column="keepAlive2" property="keepAlive" jdbcType="BIT" />
+            <result column="requireAuth2" property="requireAuth" jdbcType="BIT" />
+        </collection>
+    </resultMap>
+
     <resultMap id="MenuWithRole" type="cn.coreqi.web.model.TMenuModel" extends="BaseResultMap">
         <collection property="roles" ofType="cn.coreqi.entity.TRole">
             <id column="rid" property="id"/>
@@ -25,5 +40,9 @@
 
     <select id="getAllMenusWithRole" resultType="cn.coreqi.web.model.TMenuModel">
         select m.*,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from t_menu m,t_menu_role mr,t_role r where m.`id`=mr.`mid` and mr.`rid`=r.`id` order by m.`id`
+    </select>
+
+    <select id="getMenusByUserId" resultType="cn.coreqi.web.model.TMenuModel">
+        select distinct m1.*,m2.`id` as id2,m2.`component` as component2,m2.`enabled` as enabled2,m2.`iconCls` as iconCls2,m2.`keepAlive` as keepAlive2,m2.`name` as name2,m2.`parentId` as parentId2,m2.`requireAuth` as requireAuth2,m2.`path` as path2 from t_menu m1,t_menu m2,t_user_role ur,t_menu_role mr where m1.`id`=m2.`parentId` and ur.`userid`= #{userId} and ur.`rid`=mr.`rid` and mr.`mid`=m2.`id` and m2.`enabled`=true order by m1.`id`,m2.`id`
     </select>
 </mapper>

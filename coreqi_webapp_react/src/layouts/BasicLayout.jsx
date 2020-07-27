@@ -29,11 +29,13 @@ const noMatch = (
 /**
  * use Authorized check all menu item
  */
-const menuDataRender = menuList =>
-  menuList.map(item => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null);
-  });
+// const menuDataRender = menuList =>
+//   menuList.map(item => {
+//     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+//     return Authorized.check(item.authority, localItem, null);
+//   });
+
+
 
 const defaultFooterDom = (
   <DefaultFooter
@@ -76,8 +78,13 @@ const BasicLayout = props => {
 
   useEffect(() => {
     if (dispatch) {
+
       dispatch({
         type: 'user/fetchCurrent',
+      });
+      dispatch({
+        type: `global/fetchMenusByUserId`,
+        payload: props.currentUser.id,
       });
     }
   }, []);
@@ -97,7 +104,9 @@ const BasicLayout = props => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+  console.log(authorized);
   const { formatMessage } = useIntl();
+  console.log(props.menuDatas);
   return (
     <ProLayout
       logo={logo}
@@ -134,7 +143,7 @@ const BasicLayout = props => {
         );
       }}
       footerRender={() => defaultFooterDom}
-      menuDataRender={menuDataRender}
+      menuDataRender={() => props.menuDatas}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
@@ -146,7 +155,9 @@ const BasicLayout = props => {
   );
 };
 
-export default connect(({ global, settings }) => ({
+export default connect(({ user, global, settings }) => ({
+  currentUser: user.currentUser,
   collapsed: global.collapsed,
+  menuDatas: global.menuDatas,
   settings,
 }))(BasicLayout);

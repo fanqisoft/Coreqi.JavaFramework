@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MenuModelService {
     List<TMenuModel> getAllMenusWithRole();
+    List<TMenuModel> getMenusByUserId(Integer userId);
 }

@@ -6,15 +6,14 @@ const UserModel = {
     currentUser: {},
   },
   effects: {
-    *fetch(_, { call, put }) {
+    * fetch(_, {call, put}) {
       const response = yield call(queryUsers);
       yield put({
         type: 'save',
         payload: response,
       });
     },
-
-    *fetchCurrent(_, { call, put }) {
+    * fetchCurrent(_, {call, put}) {
       const response = yield call(queryCurrent);
       yield put({
         type: 'saveCurrentUser',
@@ -24,7 +23,7 @@ const UserModel = {
   },
   reducers: {
     saveCurrentUser(state, action) {
-      return { ...state, currentUser: action.payload || {} };
+      return {...state, currentUser: action.payload.obj || {}};
     },
 
     changeNotifyCount(
@@ -43,5 +42,5 @@ const UserModel = {
       };
     },
   },
-};
+}
 export default UserModel;

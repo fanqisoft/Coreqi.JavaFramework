@@ -4,6 +4,10 @@ import cn.coreqi.core.RespBean;
 import cn.coreqi.core.TUserModel;
 import cn.coreqi.web.services.UserModelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +19,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -29,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -135,8 +143,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 PrintWriter out = resp.getWriter();
                 TUserModel user = (TUserModel) authentication.getPrincipal();
                 user.setPassword(null);
-                RespBean ok = RespBean.ok("登录成功!", user);
-                String s = new ObjectMapper().writeValueAsString(ok);
+                @Data
+                @Accessors(chain = true)
+                @NoArgsConstructor
+                class RespData{
+                    private String status;
+                    private String type;
+                    private Object currentAuthority;
+                    private Object data;
+                }
+                RespData data = new RespData();
+                List<String> currentAuthority = new ArrayList<>();
+                user.getAuthorities().forEach(f -> currentAuthority.add(f.getAuthority()));
+                RespData respData = data.setStatus("ok").setType("account").setData(user).setCurrentAuthority(currentAuthority);
+                //RespBean ok = RespBean.ok("登录成功!", user);
+                //String s = new ObjectMapper().writeValueAsString(ok);
+                String s = new ObjectMapper().writeValueAsString(data);
                 out.write(s);
                 out.flush();
                 out.close();
