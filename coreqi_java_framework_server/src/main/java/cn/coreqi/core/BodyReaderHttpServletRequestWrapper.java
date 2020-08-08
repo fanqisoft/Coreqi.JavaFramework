@@ -1,4 +1,4 @@
-package cn.coreqi.test;
+package cn.coreqi.core;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

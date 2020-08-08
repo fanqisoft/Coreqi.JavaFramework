@@ -8,7 +8,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.2.RELEASE</version>
-        <relativePath>/</relativePath> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.coreqi</groupId>
@@ -26,10 +26,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <mysql.connector.version>8.0.21</mysql.connector.version>
-        <mssql.jdbc.version>8.2.2.jre8</mssql.jdbc.version>
+        <mssql.jdbc.version>8.4.0.jre8</mssql.jdbc.version>
         <druid.spring.boot.starter.version>1.1.23</druid.spring.boot.starter.version>
         <springfox.swagger2.version>3.0.0</springfox.swagger2.version>
         <springfox.swagger.ui.version>3.0.0</springfox.swagger.ui.version>
+        <swagger.annotations.version>2.1.4</swagger.annotations.version>
+        <swagger.models.version>2.1.4</swagger.models.version>
         <lombok.version>1.18.12</lombok.version>
         <mybatis.plus.boot.starter.version>3.3.2</mybatis.plus.boot.starter.version>
         <mybatis.plus.generator.version>3.3.2</mybatis.plus.generator.version>
@@ -37,6 +39,9 @@
         <p6spy.version>3.9.1</p6spy.version>
         <poi.version>4.1.2</poi.version>
         <commons.io.version>2.7</commons.io.version>
+        <fastjson.version>1.2.73</fastjson.version>
+        <hutool.version>5.3.10</hutool.version>
+        <okhttp.version>4.8.1</okhttp.version>
     </properties>
 
     <dependencyManagement>
@@ -73,6 +78,18 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.swagger.ui.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.annotations.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger.models.version}</version>
             </dependency>
 
             <!--lombok-->
@@ -121,6 +138,24 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
             </dependency>
 
         </dependencies>

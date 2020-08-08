@@ -36,3 +36,10 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    cn.coreqi: debug
+
+swagger:
+  enabled: true
