@@ -1,7 +1,7 @@
 package cn.coreqi.config.security;
 
 import cn.coreqi.core.RespBean;
-import cn.coreqi.test.BodyReaderHttpServletRequestWrapper;
+import cn.coreqi.core.BodyReaderHttpServletRequestWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Component

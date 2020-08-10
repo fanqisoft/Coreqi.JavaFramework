@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,11 +18,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ApiModel(value = "封装用户Model类")
 public class TUserModel extends TUser implements UserDetails {
 
     /**
      * 角色列表
      */
+    @ApiModelProperty(value = "角色列表",required = false)
     private List<TRole> roles;
 
     /**
