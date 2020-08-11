@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.coreqi.web.modelMapper.TUserModelMapper">
-    <select id="loadUserByUsername" resultType="cn.coreqi.core.TUserModel">
+    <select id="loadUserByUsername" resultType="cn.coreqi.model.TUserModel">
         select * from t_user where username = #{username};
     </select>
     <select id="getUserRolesById" resultType="cn.coreqi.entity.TRole">
