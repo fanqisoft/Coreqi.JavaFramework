@@ -1,10 +1,9 @@
 package cn.coreqi.config.security;
 
 import cn.coreqi.core.RespBean;
-import cn.coreqi.core.TUserModel;
+import cn.coreqi.model.TUserModel;
 import cn.coreqi.web.services.UserModelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -19,8 +18,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;

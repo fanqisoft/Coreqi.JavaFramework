@@ -1,10 +1,8 @@
 package cn.coreqi.web.services.impl;
 
-import cn.coreqi.core.TUserModel;
-import cn.coreqi.entityMapper.TUserMapper;
+import cn.coreqi.model.TUserModel;
 import cn.coreqi.web.modelMapper.TUserModelMapper;
 import cn.coreqi.web.services.UserModelService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

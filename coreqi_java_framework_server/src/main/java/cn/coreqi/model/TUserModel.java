@@ -1,4 +1,4 @@
-package cn.coreqi.core;
+package cn.coreqi.model;
 
 import cn.coreqi.entity.TRole;
 import cn.coreqi.entity.TUser;

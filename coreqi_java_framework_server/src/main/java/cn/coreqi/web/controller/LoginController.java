@@ -1,7 +1,7 @@
 package cn.coreqi.web.controller;
 
 import cn.coreqi.core.RespBean;
-import cn.coreqi.core.TUserModel;
+import cn.coreqi.model.TUserModel;
 import cn.coreqi.core.VerificationCode;
 import cn.coreqi.web.model.TMenuModel;
 import cn.coreqi.web.services.MenuModelService;

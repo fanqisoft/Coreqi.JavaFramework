@@ -1,6 +1,6 @@
 package cn.coreqi.web.modelMapper;
 
-import cn.coreqi.core.TUserModel;
+import cn.coreqi.model.TUserModel;
 import cn.coreqi.entity.TRole;
 import org.apache.ibatis.annotations.Mapper;
 
