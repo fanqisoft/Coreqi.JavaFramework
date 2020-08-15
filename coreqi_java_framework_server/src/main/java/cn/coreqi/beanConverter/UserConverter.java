@@ -13,9 +13,9 @@ public interface UserConverter {
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
     //更多官方示例（https://github.com/mapstruct/mapstruct-examples）。
-    @Mapping(source = "username", target = "username"/* constant = "fanqi" */ )
-    @Mapping(target = "address", expression = "java(addressToString(userVo.getAddress()))")
-    @Mapping(target = "birthday",dateFormat = "yyyy-MM-dd HH:mm:ss")
+    //@Mapping(source = "username", target = "username"/* constant = "fanqi" */ )
+    //@Mapping(target = "address", expression = "java(addressToString(userVo.getAddress()))")
+    //@Mapping(target = "birthday",dateFormat = "yyyy-MM-dd HH:mm:ss")
     TUser voToDto(UserVo userVo);
 
     /**
