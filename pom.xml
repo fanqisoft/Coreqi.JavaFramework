@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -25,26 +25,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mysql.connector.version>8.0.21</mysql.connector.version>
-        <mssql.jdbc.version>8.4.0.jre8</mssql.jdbc.version>
-        <druid.spring.boot.starter.version>1.1.23</druid.spring.boot.starter.version>
+        <mysql.connector.version>8.0.22</mysql.connector.version>
+        <mssql.jdbc.version>8.4.1.jre8</mssql.jdbc.version>
+        <druid.spring.boot.starter.version>1.2.3</druid.spring.boot.starter.version>
+        <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
         <springfox.swagger2.version>3.0.0</springfox.swagger2.version>
         <springfox.swagger.ui.version>3.0.0</springfox.swagger.ui.version>
-        <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>
-        <swagger.annotations.version>2.1.4</swagger.annotations.version>
-        <swagger.models.version>2.1.4</swagger.models.version>
-        <lombok.version>1.18.12</lombok.version>
-        <mybatis.plus.boot.starter.version>3.3.2</mybatis.plus.boot.starter.version>
-        <mybatis.plus.generator.version>3.3.2</mybatis.plus.generator.version>
+        <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>  <!-- 已更名 -->
+        <knife4j.spring.boot.starter.version>3.0.2</knife4j.spring.boot.starter.version>
+        <swagger.annotations.version>2.1.5</swagger.annotations.version>
+        <swagger.models.version>2.1.5</swagger.models.version>
+        <lombok.version>1.18.16</lombok.version>
+        <mybatis.plus.boot.starter.version>3.4.1</mybatis.plus.boot.starter.version>
+        <mybatis.plus.generator.version>3.4.1</mybatis.plus.generator.version>
         <freemarker.version>2.3.30</freemarker.version>
         <p6spy.version>3.9.1</p6spy.version>
         <poi.version>4.1.2</poi.version>
-        <commons.io.version>2.7</commons.io.version>
-        <fastjson.version>1.2.73</fastjson.version>
-        <hutool.version>5.3.10</hutool.version>
-        <okhttp.version>4.8.1</okhttp.version>
-        <mapstruct.version>1.3.1.Final</mapstruct.version>
-        <flyway.version>6.5.4</flyway.version>
+        <commons.io.version>2.8.0</commons.io.version>
+        <fastjson.version>1.2.75</fastjson.version>
+        <hutool.version>5.5.1</hutool.version>
+        <okhttp.version>4.9.0</okhttp.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <flyway.version>7.3.0</flyway.version>
 
     </properties>
 
@@ -71,6 +73,12 @@
                 <version>${druid.spring.boot.starter.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.boot.starter.version}</version>
+            </dependency>
+
             <!--swagger-->
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -90,11 +98,20 @@
                 <version>${swagger.bootstrap.ui.version}</version>
             </dependency>
 
+            <!-- 使用 knife4j 替换 swagger-bootstrap-ui -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.spring.boot.starter.version}</version>
+            </dependency>
+
+
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.annotations.version}</version>
             </dependency>
+
 
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
