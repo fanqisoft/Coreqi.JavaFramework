@@ -5,7 +5,7 @@ spring:
     #url: jdbc:p6spy:sqlserver://127.0.0.1;databaseName=prevent_lightning_device_managerment
     url: jdbc:p6spy:mysql://localhost:3306/coreqi_java_framework?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
     username: root
-    password: fanqisoft
+    password: Rg123456
 
   mvc:
     #    spring.mvc.throw-exception-if-no-handler-found 告诉 SpringBoot 当出现 404 错误时, 直接抛出异常
@@ -24,6 +24,7 @@ server:
     #    context-path: /serverapi/
     session:
       timeout: 1000m
+    register-default-servlet: true
 
 mybatis-plus:
   configuration:
@@ -37,9 +38,17 @@ management:
       exposure:
         include: "*"
 
+
 logging:
   level:
     cn.coreqi: debug
 
 swagger:
   enabled: true
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+
