@@ -25,7 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mysql.connector.version>8.0.22</mysql.connector.version>
+        <mysql.connector.version>8.0.28</mysql.connector.version>
         <mssql.jdbc.version>8.4.1.jre8</mssql.jdbc.version>
         <druid.spring.boot.starter.version>1.2.3</druid.spring.boot.starter.version>
         <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
